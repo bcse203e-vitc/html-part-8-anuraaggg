@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Table Creator</title>
+    <style>
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid black; padding: 8px; text-align: center; }
+        button { margin: 5px; }
+    </style>
+</head>
+<body>
+    <input type="number" id="rows" placeholder="Rows">
+    <input type="number" id="cols" placeholder="Columns">
+    <button onclick="generateTable()">Generate Table</button>
+    <div id="tableContainer"></div>
+    <script>
+        function generateTable() {
+            let rowCount = document.getElementById('rows').value;
+            let colCount = document.getElementById('cols').value;
+            let container = document.getElementById('tableContainer');
+            container.innerHTML = '';
+            let table = document.createElement('table');
+            for (let i = 0; i < rowCount; i++) {
+                let row = table.insertRow();
+                for (let j = 0; j < colCount; j++) {
+                    let cell = row.insertCell();
+                    cell.innerHTML = `(${i + 1},${j + 1})`;
+                }
+                let delRow = row.insertCell();
+                let btn = document.createElement('button');
+                btn.innerText = 'Delete Row';
+                btn.onclick = () => row.remove();
+                delRow.appendChild(btn);
+            }
+            let headerRow = table.insertRow(0);
+            for (let j = 0; j < colCount; j++) headerRow.insertCell().innerHTML = `Col ${j + 1}`;
+            let delCol = headerRow.insertCell();
+            let btn = document.createElement('button');
+            btn.innerText = 'Delete Col';
+            btn.onclick = () => deleteColumn(table, colCount);
+            delCol.appendChild(btn);
+            container.appendChild(table);
+        }
+        function deleteColumn(table, colCount) {
+            if (colCount > 0) {
+                for (let row of table.rows) row.deleteCell(colCount - 1);
+            }
+        }
+    </script>
+</body>
+</html>

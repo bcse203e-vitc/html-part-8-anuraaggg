@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Carousel</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #f5f5f5; margin: 0; }
+        .carousel { position: relative; width: 500px; height: 300px; overflow: hidden; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+        .slides { display: flex; transition: transform 0.5s ease-in-out; width: 1500px; } /* 3 images * 500px each */
+        .slides img { width: 500px; height: 300px; object-fit: cover; }
+        .btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px; cursor: pointer; }
+        .prev { left: 10px; } .next { right: 10px; }
+        .btn:hover { background: black; }
+    </style>
+</head>
+<body>
+
+<div class="carousel" id="carousel">
+    <div class="slides">
+        <img src="https://pixlr.com/images/generator/text-to-image.webp" alt="Image 1">
+        <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg" alt="Image 2">
+        <img src="https://th.bing.com/th/id/OIG3.80EN2JPNx7kp5VqoB5kz" alt="Image 3">
+    </div>
+    <button class="btn prev" onclick="prevSlide()">❮</button>
+    <button class="btn next" onclick="nextSlide()">❯</button>
+</div>
+
+<script>
+    let index = 0, autoSlide;
+    const slides = document.querySelector(".slides"), totalSlides = 3;
+
+    function updateSlide() {
+        slides.style.transform = `translateX(-${index * 500}px)`;
+    }
+
+    function nextSlide() { index = (index + 1) % totalSlides; updateSlide(); }
+    function prevSlide() { index = (index - 1 + totalSlides) % totalSlides; updateSlide(); }
+
+    function startAutoSlide() { autoSlide = setInterval(nextSlide, 3000); }
+    function stopAutoSlide() { clearInterval(autoSlide); }
+
+    document.getElementById("carousel").addEventListener("mouseenter", stopAutoSlide);
+    document.getElementById("carousel").addEventListener("mouseleave", startAutoSlide);
+
+    startAutoSlide();
+</script>
+
+</body>
+</html>
